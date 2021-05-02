@@ -1,4 +1,4 @@
-##This is a solution to an assignment I was given for an interview at NetCracker  - Junior Backend Developer;
+#This is a solution to an assignment I was given for an interview at NetCracker  - Junior Backend Developer;
 
 Assignment:
 
