@@ -1,6 +1,0 @@
-Agreement 1994-07-19 : Signed by - Goshko
-Products: 
-Product name: pd1
-   Child products: 
-       pd2
-

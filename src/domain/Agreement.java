@@ -14,17 +14,26 @@ public class Agreement extends BaseProduct {
     //======================================================================================================================
     private String signedBy;
 
+    public Agreement(){
+        super();
+    }
+
     public Agreement(String signedBy, List<BaseProduct> childProducts,
                      AgreementNameCreator agreementNameCreator) {
         super(childProducts);
         this.agreementNameCreator = agreementNameCreator;
         this.signedBy = signedBy;
-        this.setName("");
+        this.setPredefinedName();
     }
 
 
     @Override
     public void setName(String name) {
+        super.setName(name);
+
+    }
+
+    private void setPredefinedName(){
         super.setName(agreementNameCreator.createName());
     }
 
@@ -89,10 +98,16 @@ public class Agreement extends BaseProduct {
 
         sb.append(String.format("%s : Signed by - %s",super.getName(),this.signedBy));
         sb.append(System.lineSeparator());
-        sb.append("Products: ");
+        sb.append("Products ");
         sb.append(System.lineSeparator());
 
-        super.getChildProducts().forEach(cp -> sb.append(cp.toString()));
+
+        for(BaseProduct cp : super.getChildProducts()){
+            sb.append(String.format("%s",((Product)cp).toString()));
+            sb.append("####");
+            sb.append(System.lineSeparator());
+
+        }
 
         return sb.toString();
     }

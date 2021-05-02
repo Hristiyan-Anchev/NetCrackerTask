@@ -1,12 +1,13 @@
 package domain;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
 
-public class Product extends BaseProduct{
+public class Product extends BaseProduct {
 
 
-    public Product(String name,BigDecimal price, List<BaseProduct> childProducts) {
+    public Product(String name, BigDecimal price, List<BaseProduct> childProducts) {
         super(childProducts);
         super.setName(name);
         this.setPrice(price);
@@ -30,8 +31,14 @@ public class Product extends BaseProduct{
     @Override
     public BaseProduct addChild(BaseProduct newProduct) {
         //if newProd passes then it is valid child Product to add to the current one
-        if(!newProduct.isAgreement()){
-            var newProdCast = (Product)newProduct;
+        if (!newProduct.isAgreement() ) {
+            var newProdCast = (Product) newProduct;
+            var newProdCastParent = newProdCast.getParent();
+
+            if(newProdCastParent != null){
+                newProdCastParent.getChildProducts().remove(newProdCast);
+            }
+
             newProdCast.setParent(this);
             super.addChild(newProdCast);
 
@@ -58,8 +65,6 @@ public class Product extends BaseProduct{
     }
 
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,29 +75,47 @@ public class Product extends BaseProduct{
 
     @Override
     public int hashCode() {
-        return Objects.hash( getPrice());
+        return Objects.hash(getPrice());
     }
 
     @Override
     public String toString() {
         var sb = new StringBuilder();
 
-        if(this.parent != null && !this.parent.isAgreement()){
-            sb.append(String.format("Parent name: %s",this.parent.getName()));
-            sb.append(System.lineSeparator());
+//        if(this.parent != null && !this.parent.isAgreement()){
+//            sb.append(String.format("Parent name: %s",this.parent.getName()));
+//            sb.append(System.lineSeparator());
+//        }
+
+        int parentsCount = 0;
+        var currentParrent = this.parent;
+
+            while (currentParrent != null && !currentParrent.isAgreement() ) {
+                parentsCount+=1;
+                currentParrent = ((Product)currentParrent).getParent();
+            }
+
+        sb.append(String.format("Name: %s Price: %.2f #Children: %d",
+                super.getName(),
+                this.price.doubleValue(),
+                super.getChildProducts().size()
+                ).indent(parentsCount*2)
+        );
+//        sb.append(System.lineSeparator());
+
+//        if(super.getChildProducts().size() > 0){
+//            sb.append("Children: ");
+//            sb.append(System.lineSeparator());
+//        }
+
+        for (BaseProduct cp : super.getChildProducts()) {
+            sb.append(String.format("%s", cp.toString()));
         }
-
-        sb.append(String.format("Product name: %s",super.getName()));
-        sb.append(System.lineSeparator());
-
-        sb.append("   Child products: ");
-        sb.append(System.lineSeparator());
-        super.getChildProducts().forEach(cp -> {
-            sb.append(String.format("       %s",cp.getName()));
-            sb.append(System.lineSeparator());
-        });
-        sb.append(System.lineSeparator());
-
         return sb.toString();
     }
+
+    public String toIndentedString(Integer i) {
+return "";
+    }
+
 }

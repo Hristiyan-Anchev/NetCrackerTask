@@ -16,8 +16,7 @@ public class AgreementNameCreatorImpl implements AgreementNameCreator {
     public String createName() {
         var name = String.format(
                 "Agreement %s",
-//                LocalDate.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy"))
-                LocalDate.ofYearDay(1994,200)
+                LocalDate.now().format(DateTimeFormatter.ofPattern("dd_MM_yyyy"))
                 );
 
 

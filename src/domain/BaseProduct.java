@@ -4,8 +4,9 @@ import java.util.List;
 import java.util.Objects;
 
 public abstract class BaseProduct {
-    public BaseProduct(List<BaseProduct> childProducts){
+    public BaseProduct(){}
 
+    public BaseProduct(List<BaseProduct> childProducts){
         this.setChildProducts(childProducts);
     }
 
